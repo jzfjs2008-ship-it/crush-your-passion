@@ -1,0 +1,159 @@
+# Claude Code — Crush Your Passion Integration
+
+Instructions for Claude Code (Anthropic's CLI coding agent) when using
+the Crush Your Passion (打压你的激情) project evaluation framework.
+
+## How It Works
+
+Claude Code reads `CLAUDE.md` or `AGENTS.md` from the project root for
+context. Both are provided in this repository. When asked to evaluate a
+project, follow the 4-phase pipeline below.
+
+## Quick Commands
+
+```bash
+# Run the Python evaluator on a target project
+python -c "
+from core.evaluator import ProjectEvaluator
+e = ProjectEvaluator('/path/to/target', 'ProjectName')
+r = e.evaluate(
+    project_description='...',
+    target_market='...',
+    business_model='...',
+)
+print(r.full_report())
+"
+
+# Or pipe output to a file
+python -c "
+from core.evaluator import ProjectEvaluator
+e = ProjectEvaluator('/path/to/target', 'ProjectName')
+r = e.evaluate()
+with open('evaluation-report.md', 'w') as f:
+    f.write(r.full_report())
+"
+```
+
+## Phase 1: Technical Assessment
+
+Read the project's source code and evaluate:
+
+**Code Quality**
+- Is it production-grade or prototype-level?
+- Thread safety issues (shared mutable state without locks)
+- Security vulnerabilities (XSS, injection, credential leaks, path traversal)
+- Error handling (bare except, swallowed exceptions, missing edge cases)
+- Type safety (any/unknown casts, missing null checks, index-out-of-bounds)
+- Test coverage (not just line coverage — actual path coverage)
+
+**Technical Depth**
+- Does it solve a hard problem, or assemble known parts?
+- Is there any algorithm/methodology that would take >1 week to replicate?
+- Would a domain expert find the implementation naive?
+
+**Technical Debt**
+- How many audit rounds would it take to reach production quality?
+- Are there fundamental architectural issues that can't be patched?
+
+## Phase 2: Commercial Viability
+
+**Market Reality**
+- Is this a real market or a "seems like everyone needs this" market?
+- How many paying customers exist today (not in 2 years)?
+- What is the TAM? Be specific, not aspirational.
+
+**Differentiation** (most critical)
+- List ALL direct and indirect competitors with concrete data
+- What can this project do that competitors cannot? If nothing, say so.
+- How long to replicate the unique parts?
+
+**Moat Analysis** — The "3-Day Test"
+- If a strong engineer spent 3 days, could they build a functional equivalent?
+- If yes, there is no moat.
+- Genuine moats: patents, proprietary data, network effects, regulations
+
+**Business Model Viability**
+- Open Core: Does the free version solve 90%? If yes, nobody pays.
+- SaaS: Can you acquire customers for less than their LTV?
+- Acquisition: Users, revenue, or unique tech? If none, probability ≈ 0.
+
+## Phase 3: Strategic Options
+
+For each option, evaluate:
+
+```markdown
+## Option: [Name]
+- **Surface appeal:** Why it sounds good
+- **Actual problems:** Why it probably won't work
+- **Hidden assumptions:** What must be true for this to succeed
+- **Assumption validity:** Are those assumptions realistic?
+- **Real probability:** X% (not inflated)
+- **What it actually requires:** (usually harder than the original)
+- **Same-difficulty trap:** Is this harder than the original?
+```
+
+If all options < 10%, say "no viable path found."
+
+## Phase 4: The Final Blow
+
+Ask: **"What do you have that others don't?"**
+
+Categorize advantages:
+- Industry experience (10+ years specific domain)
+- Academic credentials (top-tier publications)
+- Network (5+ potential paying customers)
+- Proprietary data (legal, exclusive access)
+- Regulatory positioning (certifications)
+- Timing (early in a market that will definitely grow)
+
+If "nothing specific" — state that the project cannot create this
+advantage. Code is the least scarce resource.
+
+## Deliverable Format
+
+```markdown
+# [Project] — Honest Evaluation
+
+## Executive Summary
+- Verdict: [Viable / Conditionally Viable / Not Viable] (X% confidence)
+- Technical Grade: [A-F]
+- Commercial Grade: [A-F]
+
+## Technical Assessment
+### Strengths
+### Weaknesses
+### Production Readiness
+
+## Commercial Assessment
+### Market Reality
+### Competitive Landscape
+### Differentiation: [None / Weak / Moderate / Strong]
+### Moat: [None / Fragile / Sustainable]
+
+## Strategic Options
+### Option: [Name] — [X]%
+- Appeal / Problems / Harder than original?
+
+## The Uncomfortable Truth
+[Direct statement]
+
+## What To Actually Do
+[Concrete next steps]
+```
+
+## Anti-Patterns (Avoid)
+
+1. Inflating probabilities to avoid disappointing the user
+2. Writing detailed implementation advice for a doomed path
+3. Recommending pivots harder than the original without flagging it
+4. Confusing "could theoretically work" with "will work"
+5. Offering four options so at least one seems good
+
+## Key Principles
+
+1. **Truth over comfort** — The user asked for honesty
+2. **Specific over vague** — Name competitors with concrete data
+3. **External over internal** — Market position > code quality
+4. **Probability over possibility** — Evaluate what's *probable*
+5. **Root cause over symptom** — "No users" is a symptom
+6. **Code is the least scarce resource**
