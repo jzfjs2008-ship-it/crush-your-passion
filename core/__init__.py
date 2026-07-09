@@ -2,6 +2,7 @@
 # A deliberately brutal project evaluation tool.
 
 from .evaluator import ProjectEvaluator, EvaluationReport
+from .locale import detect_locale, _t
 from .phases import (
     Phase1Technical,
     Phase2Commercial,
@@ -12,6 +13,8 @@ from .phases import (
 __all__ = [
     "ProjectEvaluator",
     "EvaluationReport",
+    "detect_locale",
+    "_t",
     "Phase1Technical",
     "Phase2Commercial",
     "Phase3Strategic",

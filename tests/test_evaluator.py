@@ -129,6 +129,7 @@ def test_full_report_output():
         target_market="productivity enthusiasts",
         business_model="freemium SaaS",
         team_size=1,
+        locale="en",
         has_users=False,
         has_revenue=False,
     )
