@@ -21,8 +21,8 @@ def test_phase1_technical_with_valid_project():
     )
     report = evaluator.evaluate()
     assert report.technical is not None
-    assert report.technical.code_quality_score >= 0
-    assert report.technical.technical_depth_score >= 0
+    assert report.technical.quality_score >= 0
+    assert report.technical.depth_score >= 0
     assert report.technical.grade() in ("A", "B", "C", "D", "F")
     print(f"Technical grade: {report.technical.grade()}")
     print(report.technical.summary())
@@ -51,7 +51,7 @@ def test_phase1_technical_new_project():
         # Should find at least a critical security issue (hardcoded key + password)
         critical_count = sum(1 for f in report.technical.findings if f.severity == "critical")
         assert critical_count >= 1, f"Expected critical findings, got: {[f.title for f in report.technical.findings]}"
-        assert report.technical.code_quality_score < 80  # Should be penalized
+        assert report.technical.quality_score < 80  # Should be penalized
         print(f"Findings: {len(report.technical.findings)}")
         print(f"Critical: {critical_count}")
         print(report.technical.summary())
