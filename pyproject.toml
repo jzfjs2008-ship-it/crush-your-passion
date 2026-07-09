@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crush-your-passion"
+version = "1.0.0"
+description = "A brutally honest, multi-phase project evaluation tool that systematically dismantles developer enthusiasm."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "jznem"},
+]
+keywords = ["evaluation", "brutal-honesty", "project-review", "code-quality", "commercial-viability"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+]
+
+[tool.setuptools.packages.find]
+include = ["core*"]
+
+[project.scripts]
+crush-your-passion = "core.evaluator:main"
