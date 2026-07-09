@@ -34,10 +34,15 @@ It is inspired by:
 
 ## Platforms
 
-This project supports two agent platforms:
+This project supports three agent platforms:
 
-- **Hermes Agent** — Skill definition in `hermes/SKILL.md`
-- **OpenClaw** — Skill definition in `openclaw/SKILL.md`
+| Platform | Integration | How to Use |
+|----------|-------------|------------|
+| **Hermes Agent** | `hermes/SKILL.md` | `hermes skills install ./hermes/SKILL.md` |
+| **OpenClaw** | `openclaw/SKILL.md` | `cp -r openclaw ~/.openclaw/skills/crush-your-passion/` |
+| **Codex CLI** | `codex/INSTRUCTIONS.md` | Read instructions, run evaluation inline |
+
+All platforms also read `AGENTS.md` at project root for cross-platform context.
 
 ## Quick Start
 
@@ -65,7 +70,14 @@ cp -r openclaw ~/.openclaw/skills/crush-your-passion
 openclaw hooks enable crush-your-passion
 ```
 
-### Python Library
+### Codex CLI
+
+```bash
+# Codex loads AGENTS.md at project root automatically.
+# To evaluate a project, run:
+codex exec "Evaluate this project using the Crush Your Passion framework: run the 4-phase assessment, deliver a full report."
+```
+
 
 ```bash
 pip install -e .
@@ -95,8 +107,8 @@ crush-your-passion/
 │   └── SKILL.md                  # Hermes Agent skill
 ├── openclaw/
 │   └── SKILL.md                  # OpenClaw skill
-├── stories/
-│   └── when-the-spark-dies.md    # A cautionary tale
+├── codex/
+│   └── INSTRUCTIONS.md           # Codex CLI instructions
 ├── tests/
 │   └── test_evaluator.py         # Test suite
 ├── pyproject.toml
