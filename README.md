@@ -8,18 +8,42 @@
 
 ## Quick Start / 快速开始
 
-```python
-pip install -e .
+### Install / 安装
 
+```bash
+pip install -e .
+```
+
+### Evaluate a local project / 评估本地项目
+
+```python
 from core.evaluator import ProjectEvaluator
 
-# Give a path. Get crushed. / 给路径，挨打击。
 e = ProjectEvaluator('/path/to/project', 'MyProject')
 r = e.evaluate()   # No questions / 不提问题
 print(r.full_report())
 ```
 
-That's it. 就这点事。
+### Evaluate from URL / 从 URL 评估
+
+**EN:** Give it a GitHub URL. It clones, scans, and delivers — all in one shot. No manual clone, no cd, no pip install.
+
+**ZH:** 给一个 GitHub 地址。它自动克隆、扫描、出报告。不需要手动 clone、cd、pip install。
+
+```python
+from core.evaluator import evaluate_from_url
+
+# One line. That's it. / 一行代码。搞定。
+report = evaluate_from_url('https://github.com/user/repo')
+print(report.full_report())
+```
+
+```bash
+# Or from the command line / 或者命令行
+crush-your-passion https://github.com/user/repo
+```
+
+Exit code: `0` if Viable, `1` if Not Viable.
 
 ---
 

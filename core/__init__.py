@@ -1,7 +1,7 @@
 # Crush Your Passion — Core Evaluation Engine
 # A deliberately brutal project evaluation tool.
 
-from .evaluator import ProjectEvaluator, EvaluationReport
+from .evaluator import ProjectEvaluator, EvaluationReport, evaluate_from_url
 from .locale import detect_locale, _t
 from .phases import (
     Phase1Technical,

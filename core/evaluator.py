@@ -10,8 +10,14 @@ Phase 4: The Final Blow
 Bilingual (en/zh) — auto-detects from user input or env.
 """
 
+import os
+import re
+import shutil
+import subprocess
+import tempfile
 from dataclasses import dataclass, field
 from typing import List, Optional
+from urllib.parse import urlparse
 
 from .locale import detect_locale, _t
 from .phases.phase1_technical import Phase1Technical, TechnicalReport
@@ -171,3 +177,97 @@ class ProjectEvaluator:
         )
 
         return report
+
+
+# ── URL evaluation ──────────────────────────────────────────────────
+
+_REPO_URL_PATTERN = re.compile(
+    r'(?:https?://)?(?:www\.)?(?:github\.com|gitlab\.com)'
+    r'/([^/]+/[^/]+?)(?:\.git)?(?:/.*)?$'
+)
+
+
+def evaluate_from_url(
+    url: str,
+    locale: Optional[str] = None,
+    cleanup: bool = True,
+) -> EvaluationReport:
+    """Clone a repo from URL, evaluate it, return the report.
+
+    Parameters
+    ----------
+    url : str
+        GitHub or GitLab repository URL.
+    locale : str or None
+        Output language ('en', 'zh', or None for auto-detect).
+    cleanup : bool
+        Remove temp directory after evaluation (default True).
+
+    Returns
+    -------
+    EvaluationReport
+        Full 4-phase evaluation report.
+    """
+    m = _REPO_URL_PATTERN.match(url.strip())
+    if not m:
+        raise ValueError(
+            f"Cannot parse repo URL: {url}\n"
+            f"Expected format: https://github.com/user/repo"
+        )
+
+    repo_path = m.group(1).rstrip("/")
+    project_name = repo_path.split("/")[-1]
+
+    tmpdir = tempfile.mkdtemp(prefix="crush-")
+    clone_url = f"https://github.com/{repo_path}.git"
+
+    print(f"[crush] Cloning {clone_url} ...")
+    result = subprocess.run(
+        ["git", "clone", "--depth=1", clone_url, tmpdir],
+        capture_output=True, text=True, timeout=120,
+    )
+    if result.returncode != 0:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+        raise RuntimeError(
+            f"Failed to clone {clone_url}:\n{result.stderr}"
+        )
+
+    print(f"[crush] Scanning {project_name} ...")
+    try:
+        evaluator = ProjectEvaluator(tmpdir, project_name)
+        report = evaluator.evaluate(locale=locale)
+    finally:
+        if cleanup:
+            shutil.rmtree(tmpdir, ignore_errors=True)
+
+    return report
+
+
+def main():
+    """CLI entry point: crush-your-passion <url_or_path>"""
+    import sys
+
+    if len(sys.argv) < 2:
+        print(
+            "Usage: crush-your-passion <repo-url-or-path>\n\n"
+            "Examples:\n"
+            "  crush-your-passion https://github.com/user/repo\n"
+            "  crush-your-passion /path/to/local/project\n"
+        )
+        sys.exit(1)
+
+    target = sys.argv[1]
+
+    # Detect if URL or local path
+    if target.startswith("http://") or target.startswith("https://"):
+        report = evaluate_from_url(target)
+    else:
+        path = os.path.abspath(target)
+        name = os.path.basename(path)
+        evaluator = ProjectEvaluator(path, name)
+        report = evaluator.evaluate()
+
+    print(report.full_report())
+
+    # Exit code: 0 if viable, 1 if not
+    sys.exit(0 if report.overall_verdict == "Viable" else 1)
