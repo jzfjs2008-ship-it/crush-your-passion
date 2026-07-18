@@ -12,15 +12,11 @@ project, follow the 4-phase pipeline below.
 ## Quick Commands
 
 ```bash
-# Run the Python evaluator on a target project
+# Run the Python evaluator — no questions, all automatic
 python -c "
 from core.evaluator import ProjectEvaluator
 e = ProjectEvaluator('/path/to/target', 'ProjectName')
-r = e.evaluate(
-    project_description='...',
-    target_market='...',
-    business_model='...',
-)
+r = e.evaluate()  # Scans code, analyzes, delivers verdict
 print(r.full_report())
 "
 
@@ -58,24 +54,19 @@ Read the project's source code and evaluate:
 ## Phase 2: Commercial Viability
 
 **Market Reality**
-- Is this a real market or a "seems like everyone needs this" market?
-- How many paying customers exist today (not in 2 years)?
-- What is the TAM? Be specific, not aspirational.
+- Scan for evidence of real market demand
+- Identify whether paying customers exist
 
-**Differentiation** (most critical)
-- List ALL direct and indirect competitors with concrete data
-- What can this project do that competitors cannot? If nothing, say so.
-- How long to replicate the unique parts?
+**Differentiation**
+- List known direct and indirect competitors
+- Identify what (if anything) sets this project apart
 
 **Moat Analysis** — The "3-Day Test"
-- If a strong engineer spent 3 days, could they build a functional equivalent?
+- If a strong engineer spent 3 days, could they build it?
 - If yes, there is no moat.
-- Genuine moats: patents, proprietary data, network effects, regulations
 
 **Business Model Viability**
-- Open Core: Does the free version solve 90%? If yes, nobody pays.
-- SaaS: Can you acquire customers for less than their LTV?
-- Acquisition: Users, revenue, or unique tech? If none, probability ≈ 0.
+- Open Core, SaaS, or free? Evaluate each if identifiable.
 
 ## Phase 3: Strategic Options
 
@@ -96,18 +87,11 @@ If all options < 10%, say "no viable path found."
 
 ## Phase 4: The Final Blow
 
-Ask: **"What do you have that others don't?"**
+Evaluate advantages: industry experience, credentials, network,
+proprietary data, regulatory positioning, timing.
 
-Categorize advantages:
-- Industry experience (10+ years specific domain)
-- Academic credentials (top-tier publications)
-- Network (5+ potential paying customers)
-- Proprietary data (legal, exclusive access)
-- Regulatory positioning (certifications)
-- Timing (early in a market that will definitely grow)
-
-If "nothing specific" — state that the project cannot create this
-advantage. Code is the least scarce resource.
+If nothing identifiable — state that the project itself
+cannot create this advantage. Code is the least scarce resource.
 
 ## Deliverable Format
 

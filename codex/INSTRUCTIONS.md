@@ -20,12 +20,10 @@ Read the project source and evaluate:
 
 ### Phase 2: Commercial Viability
 
-1. **Market reality** — is this a real market with paying customers?
-2. **Differentiation** — what can this project do that competitors cannot?
-   - If nothing, say so.
-3. **Moat analysis** — apply the "3-day test."
-   - If a competent engineer could replicate it in 3 days, there is no moat.
-4. **Business model** — is the monetization path realistic?
+1. **Market reality** — scan for evidence of a real market with paying customers
+2. **Differentiation** — identify what (if anything) sets this apart
+3. **Moat analysis** — apply the "3-day test"
+4. **Business model** — evaluate monetization path if identifiable
 
 ### Phase 3: Strategic Options
 
@@ -39,12 +37,10 @@ If all options are <10%, say "no viable path found."
 
 ### Phase 4: The Final Blow
 
-Ask the fundamental question: **"What do you have that others don't?"**
-
-Categorize advantages: industry experience, credentials, network,
+Evaluate advantages: industry experience, credentials, network,
 proprietary data, regulatory positioning, timing.
 
-If the answer is "nothing specific," state that the project itself
+If nothing identifiable, state that the project itself
 cannot create this advantage. Code is the least scarce resource.
 
 ## Deliverable Format

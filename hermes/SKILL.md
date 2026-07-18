@@ -30,86 +30,33 @@ The name is ironic — the tool's purpose is not cruelty, but clarity. If your p
 
 ## When to Use
 
-Load this skill when the user says:
-- "Evaluate my project honestly"
-- "Tell me if this project has a future"
-- "Is this worth pursuing?"
-- "Rate my project"
-- "Be brutally honest about my project"
-- "Does this have commercial potential?"
-- "I need a reality check"
-
-**Do NOT use when:**
-- The user is clearly emotionally fragile or going through a difficult time
-- The user needs encouragement, not honesty
-- The project is a clearly stated learning exercise (not a commercial endeavor)
-- The user explicitly asks for positive feedback only
+Load this skill when the user asks for a project evaluation.
+Deliver the report directly — no questions, no data collection.
 
 ## How to Use
 
-### Step 1: Collect Project Information
+### Run the Evaluation
 
-Ask the user for:
-1. Project name and path (local or GitHub URL)
-2. Brief description (1-3 sentences)
-3. Target market / intended users
-4. Business model (if commercial)
-5. Team size
-6. Current traction (users? revenue?)
-7. Any known competitors
-8. Any unique advantages (patents, data, relationships, experience)
-
-Ask ONE question at a time. Do not dump all 8.
-
-### Step 2: Run Technical Assessment
-
-Use the `core` evaluation engine or run manually:
+Get the project path, then execute the 4-phase pipeline directly:
 
 ```bash
-# If the Python package is installed:
-python -m core.evaluator --project /path/to/project
+# Option A: Use Python evaluator (automated code scan)
+python -c "
+from core.evaluator import ProjectEvaluator
+e = ProjectEvaluator('/path/to/project', 'ProjectName')
+r = e.evaluate()  # No questions asked — scans code automatically
+print(r.full_report())
+"
 ```
 
-Or use the agent's own tools to assess the project:
-- Read the source code
-- Check for tests, CI, documentation
-- Scan for security issues and code smells
-- Evaluate architecture quality
+### The 4 Phases (Run in Order)
 
-### Step 3: Run Commercial Assessment
-
-Based on user-provided information + web research:
-- Search for competitors (GitHub stars, funding, market position)
-- Evaluate market reality
-- Assess differentiation and moat
-
-### Step 4: Generate Strategic Options
-
-Analyze every plausible strategic path:
-- Open Core + Enterprise
-- Consulting/Services
-- Acquisition
-- Pivot to new market
-- Keep building (more features)
-- Aggressive marketing
-- Abandonment (the most rational option for many projects)
-
-### Step 5: Deliver The Final Blow
-
-Close with:
-1. The fundamental question: "What do you have that others don't?"
-2. Assessment of their unique advantages (if any)
-3. Final verdict: Viable / Conditionally Viable / Not Viable
-4. Confidence score
-5. The uncomfortable truth
-6. What to actually do
-
-### Step 6: Follow-up
-
-After delivering the evaluation:
-- If "Not Viable": Offer no false hope. Recommend what they should actually do.
-- If "Conditionally Viable": Identify the SINGLE risk that could kill it.
-- If "Viable": Still remind them that 80% of viable projects fail anyway.
+| Phase | What It Does | How |
+|-------|-------------|-----|
+| 1 Technical | Scans code for security flaws, code smells, infra gaps, docs quality, testing coverage | Automated — read source + config files |
+| 2 Commercial | Evaluates market reality, differentiation, moat | Use defaults unless user volunteers info |
+| 3 Strategic | Lists every pivot — and why most won't work | Based on Phase 1+2 results |
+| 4 The Final Blow | Delivers the uncomfortable truth | Automatic from previous phases |
 
 ## Output Format
 
@@ -157,18 +104,10 @@ After delivering the evaluation:
 
 1. Would I invest my own money in this? If no, why am I suggesting it could work?
 2. Am I inflating probabilities to avoid disappointing the user?
-3. Is every strategic option I'm recommending actually easier than the current path?
-4. If a friend told me they were pursuing this, would I try to stop them?
-5. Am I writing detailed implementation steps for something with <10% chance?
+3. If a friend told me they were pursuing this, would I try to stop them?
 
-## Verification Checklist
+## Verification
 
-- [ ] All 8 project information items collected
-- [ ] Technical assessment run (code scan, test check, CI check)
-- [ ] Commercial assessment with competitor research
-- [ ] Strategic options evaluated with realistic probabilities
-- [ ] "Same Difficulty Trap" checked for each option
-- [ ] Final blow delivered with uncomfortable truth
-- [ ] Confidence score honestly assigned
-- [ ] No false hope given
-- [ ] Concrete "what to actually do" provided
+- [ ] Phase 1 technical scan completed
+- [ ] Phase 2-4 run with available data
+- [ ] Final blow delivered — no false hope
